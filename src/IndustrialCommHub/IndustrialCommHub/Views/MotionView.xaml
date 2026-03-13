@@ -1,0 +1,137 @@
+<UserControl x:Class="IndustrialCommHub.Views.MotionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:scottplot="clr-namespace:ScottPlot.WPF;assembly=ScottPlot.WPF"
+             Loaded="UserControl_Loaded">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="16">
+            <!-- Network Cards -->
+            <TextBlock Text="Motion Network Protocols" Style="{StaticResource HeaderText}"/>
+            <Grid Margin="0,0,0,12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" Background="#FF1A2A3A" CornerRadius="6" Padding="14" Margin="0,0,8,0" BorderBrush="#FF0078D7" BorderThickness="1">
+                    <StackPanel>
+                        <TextBlock Text="EtherCAT" Foreground="#FF0078D7" FontSize="15" FontWeight="Bold"/>
+                        <TextBlock Text="EtherLAB/IEC 61158" FontSize="11" Foreground="{StaticResource SubTextBrush}" Margin="0,2,0,8"/>
+                        <TextBlock Style="{StaticResource BodyText}" Text="• 100Mbps/1Gbps 이더넷 기반&#x0a;• Line(Daisy-chain) 토폴로지&#x0a;• 싸이클 타임 &lt;100μs, Jitter &lt;1μs&#x0a;• 최대 65,535 슬레이브 노드&#x0a;• ESI(EtherCAT Slave Info) XML 기반 구성&#x0a;• Beckhoff TwinCAT, CODESYS, IGH 마스터"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Column="1" Background="#FF1A2A3A" CornerRadius="6" Padding="14" Margin="4,0" BorderBrush="#FF9C27B0" BorderThickness="1">
+                    <StackPanel>
+                        <TextBlock Text="SSCNET III/H" Foreground="#FFCE93D8" FontSize="15" FontWeight="Bold"/>
+                        <TextBlock Text="Mitsubishi Servo Network" FontSize="11" Foreground="{StaticResource SubTextBrush}" Margin="0,2,0,8"/>
+                        <TextBlock Style="{StaticResource BodyText}" Text="• 150Mbps 광통신 기반 시리얼 네트워크&#x0a;• Line 토폴로지 (광케이블)&#x0a;• 싸이클 타임 0.444ms / 0.888ms&#x0a;• 최대 16축/1라인&#x0a;• MR-J4/J5 서보 앰프 전용&#x0a;• EMI 완전 차폐, 장거리 (50m/세그먼트)"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Column="2" Background="#FF1A2A3A" CornerRadius="6" Padding="14" Margin="8,0,0,0" BorderBrush="#FF4CAF50" BorderThickness="1">
+                    <StackPanel>
+                        <TextBlock Text="PMAC / Turbo PMAC" Foreground="#FF81C784" FontSize="15" FontWeight="Bold"/>
+                        <TextBlock Text="Delta Tau / Omron" FontSize="11" Foreground="{StaticResource SubTextBrush}" Margin="0,2,0,8"/>
+                        <TextBlock Style="{StaticResource BodyText}" Text="• 고성능 멀티축 모션 컨트롤러&#x0a;• PLC 언어(Motion Program) 내장&#x0a;• 최대 32축 동시 제어&#x0a;• Tuning Package로 서보 튜닝&#x0a;• 통신: USB, Ethernet, DPRAM&#x0a;• 레이저/갈바노/XY 스테이지 제어"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- Motion Profile -->
+            <Border Style="{StaticResource CardStyle}">
+                <StackPanel>
+                    <TextBlock Text="Motion Profile Types" Style="{StaticResource HeaderText}"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Background="#FF252525" CornerRadius="4" Padding="12" Margin="0,0,8,0">
+                            <StackPanel>
+                                <TextBlock Text="🔺 Trapezoidal Profile" Style="{StaticResource SubHeaderText}"/>
+                                <TextBlock Style="{StaticResource BodyText}" Margin="0,4,0,0"
+                                           Text="Accel → Const Velocity → Decel 3단계. 속도 그래프가 사다리꼴 모양. 단순하고 계산이 쉬우나 가속/감속 구간에서 Jerk(급격한 토크 변화)가 발생. 고속 반복 동작에서 기계적 충격 유발 가능."/>
+                                <Border Background="#FF1A1A2E" CornerRadius="3" Padding="8,6" Margin="0,8,0,0">
+                                    <TextBlock FontFamily="Consolas" FontSize="11" Foreground="#FF9CDCFE"
+                                               Text="v(t): 0→Vmax (linear)&#x0a;a(t): ±Amax (step)&#x0a;J(t): 0 (infinite at transitions)"/>
+                                </Border>
+                            </StackPanel>
+                        </Border>
+                        <Border Grid.Column="1" Background="#FF252525" CornerRadius="4" Padding="12" Margin="8,0,0,0">
+                            <StackPanel>
+                                <TextBlock Text="〜 S-Curve Profile" Style="{StaticResource SubHeaderText}"/>
+                                <TextBlock Style="{StaticResource BodyText}" Margin="0,4,0,0"
+                                           Text="Jerk 제한을 추가한 7-segment 프로파일. 가속/감속 구간을 다시 점진적으로 증감시켜 S자 곡선을 형성. 기계 충격 최소화, 진동 억제. 고정밀 반도체/LCD 장비에 필수적. 이동 시간이 약간 증가."/>
+                                <Border Background="#FF1A1A2E" CornerRadius="3" Padding="8,6" Margin="0,8,0,0">
+                                    <TextBlock FontFamily="Consolas" FontSize="11" Foreground="#FF9CDCFE"
+                                               Text="v(t): S-shaped curve&#x0a;a(t): trapezoidal&#x0a;J(t): ±Jmax (limited)"/>
+                                </Border>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- PID Tuner -->
+            <Border Style="{StaticResource CardStyle}">
+                <StackPanel>
+                    <TextBlock Text="PID Tuning — Step Response Simulator" Style="{StaticResource HeaderText}"/>
+                    <Grid Margin="0,0,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="60"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Kp (Proportional)" VerticalAlignment="Center" Width="160"/>
+                        <Slider Grid.Row="0" Grid.Column="1" x:Name="KpSlider"
+                                Minimum="0.01" Maximum="10" SmallChange="0.1" LargeChange="1"
+                                Value="{Binding Kp}" Margin="0,4"/>
+                        <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding Kp, StringFormat=F2}" 
+                                   Foreground="{StaticResource AccentBrush}" FontFamily="Consolas" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Ki (Integral)" VerticalAlignment="Center"/>
+                        <Slider Grid.Row="1" Grid.Column="1" x:Name="KiSlider"
+                                Minimum="0" Maximum="5" SmallChange="0.05" LargeChange="0.5"
+                                Value="{Binding Ki}" Margin="0,4"/>
+                        <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding Ki, StringFormat=F2}"
+                                   Foreground="{StaticResource AccentBrush}" FontFamily="Consolas" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Kd (Derivative)" VerticalAlignment="Center"/>
+                        <Slider Grid.Row="2" Grid.Column="1" x:Name="KdSlider"
+                                Minimum="0" Maximum="2" SmallChange="0.01" LargeChange="0.1"
+                                Value="{Binding Kd}" Margin="0,4"/>
+                        <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding Kd, StringFormat=F2}"
+                                   Foreground="{StaticResource AccentBrush}" FontFamily="Consolas" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                    </Grid>
+
+                    <TextBlock Text="{Binding PidInfo}" Foreground="{StaticResource WarningBrush}" 
+                               FontFamily="Consolas" FontSize="12" Margin="0,0,0,8"/>
+
+                    <scottplot:WpfPlot x:Name="PidPlot" Height="260"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Glossary -->
+            <Border Style="{StaticResource CardStyle}">
+                <StackPanel>
+                    <TextBlock Text="Motion Glossary" Style="{StaticResource HeaderText}"/>
+                    <DataGrid x:Name="GlossaryGrid" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True"
+                              MaxHeight="300">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Term" Width="150"/>
+                            <DataGridTextColumn Header="Description" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

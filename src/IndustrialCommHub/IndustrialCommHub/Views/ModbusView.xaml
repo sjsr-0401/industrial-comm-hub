@@ -1,0 +1,149 @@
+<UserControl x:Class="IndustrialCommHub.Views.ModbusView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="16">
+            <!-- MBAP Header -->
+            <Border Style="{StaticResource CardStyle}">
+                <StackPanel>
+                    <TextBlock Text="MBAP Header Structure (7 Bytes)" Style="{StaticResource HeaderText}"/>
+                    <TextBlock Style="{StaticResource BodyText}"
+                               Text="Modbus TCP는 모든 요청/응답 앞에 7바이트 MBAP(Modbus Application Protocol) 헤더를 붙입니다."/>
+                    <Grid Margin="0,12,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Background="#FF1A3A5C" CornerRadius="4" Margin="2" Padding="10,8">
+                            <StackPanel>
+                                <TextBlock Text="Transaction ID" FontSize="11" Foreground="#FF9CDCFE" FontWeight="SemiBold"/>
+                                <TextBlock Text="2 Bytes" FontSize="20" Foreground="White" FontWeight="Bold" Margin="0,2,0,0"/>
+                                <TextBlock Text="요청/응답 매칭" FontSize="10" Foreground="{StaticResource SubTextBrush}" Margin="0,2,0,0"/>
+                            </StackPanel>
+                        </Border>
+                        <Border Grid.Column="1" Background="#FF1A3A5C" CornerRadius="4" Margin="2" Padding="10,8">
+                            <StackPanel>
+                                <TextBlock Text="Protocol ID" FontSize="11" Foreground="#FF9CDCFE" FontWeight="SemiBold"/>
+                                <TextBlock Text="2 Bytes" FontSize="20" Foreground="White" FontWeight="Bold" Margin="0,2,0,0"/>
+                                <TextBlock Text="항상 0x0000" FontSize="10" Foreground="{StaticResource SubTextBrush}" Margin="0,2,0,0"/>
+                            </StackPanel>
+                        </Border>
+                        <Border Grid.Column="2" Background="#FF1A3A5C" CornerRadius="4" Margin="2" Padding="10,8">
+                            <StackPanel>
+                                <TextBlock Text="Length" FontSize="11" Foreground="#FF9CDCFE" FontWeight="SemiBold"/>
+                                <TextBlock Text="2 Bytes" FontSize="20" Foreground="White" FontWeight="Bold" Margin="0,2,0,0"/>
+                                <TextBlock Text="이후 바이트 수" FontSize="10" Foreground="{StaticResource SubTextBrush}" Margin="0,2,0,0"/>
+                            </StackPanel>
+                        </Border>
+                        <Border Grid.Column="3" Background="#FF2A4A2A" CornerRadius="4" Margin="2" Padding="10,8">
+                            <StackPanel>
+                                <TextBlock Text="Unit ID" FontSize="11" Foreground="#FFB5E4B5" FontWeight="SemiBold"/>
+                                <TextBlock Text="1 Byte" FontSize="20" Foreground="White" FontWeight="Bold" Margin="0,2,0,0"/>
+                                <TextBlock Text="슬레이브 주소" FontSize="10" Foreground="{StaticResource SubTextBrush}" Margin="0,2,0,0"/>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                    <!-- Simulated bytes -->
+                    <Border Background="#FF1A1A2E" CornerRadius="4" Padding="12,8" Margin="0,12,0,0">
+                        <StackPanel>
+                            <TextBlock Text="예시 패킷 (FC03, D100 1개 읽기)" FontSize="11" Foreground="{StaticResource SubTextBrush}" Margin="0,0,0,4"/>
+                            <StackPanel Orientation="Horizontal">
+                                <Border Background="#FF1A3A5C" CornerRadius="3" Padding="8,4" Margin="2,0">
+                                    <StackPanel>
+                                        <TextBlock Text="00 01" FontFamily="Consolas" FontSize="14" Foreground="#FF9CDCFE" FontWeight="Bold"/>
+                                        <TextBlock Text="TxID" FontSize="10" Foreground="{StaticResource SubTextBrush}" HorizontalAlignment="Center"/>
+                                    </StackPanel>
+                                </Border>
+                                <Border Background="#FF1A3A5C" CornerRadius="3" Padding="8,4" Margin="2,0">
+                                    <StackPanel>
+                                        <TextBlock Text="00 00" FontFamily="Consolas" FontSize="14" Foreground="#FF9CDCFE" FontWeight="Bold"/>
+                                        <TextBlock Text="ProtID" FontSize="10" Foreground="{StaticResource SubTextBrush}" HorizontalAlignment="Center"/>
+                                    </StackPanel>
+                                </Border>
+                                <Border Background="#FF1A3A5C" CornerRadius="3" Padding="8,4" Margin="2,0">
+                                    <StackPanel>
+                                        <TextBlock Text="00 06" FontFamily="Consolas" FontSize="14" Foreground="#FF9CDCFE" FontWeight="Bold"/>
+                                        <TextBlock Text="Length" FontSize="10" Foreground="{StaticResource SubTextBrush}" HorizontalAlignment="Center"/>
+                                    </StackPanel>
+                                </Border>
+                                <Border Background="#FF2A4A2A" CornerRadius="3" Padding="8,4" Margin="2,0">
+                                    <StackPanel>
+                                        <TextBlock Text="01" FontFamily="Consolas" FontSize="14" Foreground="#FFB5E4B5" FontWeight="Bold"/>
+                                        <TextBlock Text="UnitID" FontSize="10" Foreground="{StaticResource SubTextBrush}" HorizontalAlignment="Center"/>
+                                    </StackPanel>
+                                </Border>
+                                <Border Background="#FF4A3A1A" CornerRadius="3" Padding="8,4" Margin="2,0">
+                                    <StackPanel>
+                                        <TextBlock Text="03" FontFamily="Consolas" FontSize="14" Foreground="#FFFFC107" FontWeight="Bold"/>
+                                        <TextBlock Text="FC03" FontSize="10" Foreground="{StaticResource SubTextBrush}" HorizontalAlignment="Center"/>
+                                    </StackPanel>
+                                </Border>
+                                <Border Background="#FF4A3A1A" CornerRadius="3" Padding="8,4" Margin="2,0">
+                                    <StackPanel>
+                                        <TextBlock Text="00 64" FontFamily="Consolas" FontSize="14" Foreground="#FFFFC107" FontWeight="Bold"/>
+                                        <TextBlock Text="Addr(100)" FontSize="10" Foreground="{StaticResource SubTextBrush}" HorizontalAlignment="Center"/>
+                                    </StackPanel>
+                                </Border>
+                                <Border Background="#FF4A3A1A" CornerRadius="3" Padding="8,4" Margin="2,0">
+                                    <StackPanel>
+                                        <TextBlock Text="00 01" FontFamily="Consolas" FontSize="14" Foreground="#FFFFC107" FontWeight="Bold"/>
+                                        <TextBlock Text="Count(1)" FontSize="10" Foreground="{StaticResource SubTextBrush}" HorizontalAlignment="Center"/>
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+            <!-- Function Code Reference -->
+            <Border Style="{StaticResource CardStyle}">
+                <StackPanel>
+                    <TextBlock Text="Function Code Reference" Style="{StaticResource HeaderText}"/>
+                    <DataGrid ItemsSource="{Binding FunctionCodes}" MaxHeight="240">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Code" Binding="{Binding Code}" Width="70"/>
+                            <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="220"/>
+                            <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*"/>
+                            <DataGridTextColumn Header="Data Type" Binding="{Binding DataType}" Width="130"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </Border>
+
+            <!-- Register Viewer -->
+            <Border Style="{StaticResource CardStyle}">
+                <StackPanel>
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Register Viewer (Simulation)" Style="{StaticResource HeaderText}" VerticalAlignment="Center"/>
+                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                            <TextBlock Text="Type:" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                            <ComboBox ItemsSource="{Binding RegisterTypes}"
+                                      SelectedItem="{Binding SelectedRegisterType}"
+                                      Width="160" Margin="0,0,8,0"/>
+                            <Button Content="Read" Command="{Binding SimulateReadCommand}" Margin="0,0,8,0"/>
+                            <Button Content="Write" Command="{Binding SimulateWriteCommand}" Style="{StaticResource SecondaryButton}"/>
+                        </StackPanel>
+                    </Grid>
+                    <DataGrid ItemsSource="{Binding Registers}" MaxHeight="280">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Address" Binding="{Binding Address}" Width="90"/>
+                            <DataGridTextColumn Header="Type" Binding="{Binding Type}" Width="150"/>
+                            <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"/>
+                            <DataGridTextColumn Header="Value (Dec)" Binding="{Binding Value}" Width="100"/>
+                            <DataGridTextColumn Header="Value (Hex)" Binding="{Binding HexValue}" Width="100"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <TextBlock Text="{Binding StatusMessage}" Foreground="{StaticResource AccentBrush}" 
+                               FontFamily="Consolas" FontSize="12" Margin="0,8,0,0"/>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

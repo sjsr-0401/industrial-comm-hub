@@ -1,0 +1,99 @@
+<UserControl x:Class="IndustrialCommHub.Views.PlcView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="16">
+
+            <!-- Mitsubishi MX Component -->
+            <Border Style="{StaticResource CardStyle}">
+                <StackPanel>
+                    <TextBlock Text="Mitsubishi MX Component (ActUtlType64)" Style="{StaticResource HeaderText}"/>
+                    <TextBlock Style="{StaticResource BodyText}" Margin="0,0,0,8"
+                               Text="MX Component는 Mitsubishi Electric에서 제공하는 PLC 통신 미들웨어. COM/MELSEC 직결, CC-Link, SLMP 등 다양한 경로를 통해 MELSEC 시리즈 PLC와 통신. C#/VB/VC++ 지원, 논리 스테이션 번호 기반 구성."/>
+
+                    <Grid Margin="0,8,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Block Read -->
+                        <Border Grid.Column="0" Background="#FF1A1A2E" CornerRadius="4" Padding="12" Margin="0,0,8,0">
+                            <StackPanel>
+                                <TextBlock Text="Block Read Example" Style="{StaticResource SubHeaderText}" Foreground="{StaticResource AccentBrush}"/>
+                                <TextBlock x:Name="BlockReadCode" Style="{StaticResource CodeText}" Padding="8" Margin="0,6,0,0"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Block Write -->
+                        <Border Grid.Column="1" Background="#FF1A1A2E" CornerRadius="4" Padding="12" Margin="8,0,0,0">
+                            <StackPanel>
+                                <TextBlock Text="Block Write Example" Style="{StaticResource SubHeaderText}" Foreground="{StaticResource AccentBrush}"/>
+                                <TextBlock x:Name="BlockWriteCode" Style="{StaticResource CodeText}" Padding="8" Margin="0,6,0,0"/>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Device Types -->
+            <Border Style="{StaticResource CardStyle}">
+                <StackPanel>
+                    <TextBlock Text="MELSEC Device Types" Style="{StaticResource HeaderText}"/>
+                    <DataGrid ItemsSource="{Binding DeviceTypes}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Symbol" Binding="{Binding Symbol}" Width="80"/>
+                            <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="160"/>
+                            <DataGridTextColumn Header="Size" Binding="{Binding Size}" Width="130"/>
+                            <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </Border>
+
+            <!-- Siemens S7 -->
+            <Border Style="{StaticResource CardStyle}">
+                <StackPanel>
+                    <TextBlock Text="Siemens S7 Overview" Style="{StaticResource HeaderText}"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Margin="0,0,8,0">
+                            <TextBlock Text="S7 Protocol" Style="{StaticResource SubHeaderText}"/>
+                            <TextBlock Style="{StaticResource BodyText}"
+                                       Text="Siemens 독자 프로토콜. S7-300/400/1200/1500 시리즈 지원. ISO-on-TCP (RFC 1006) 기반으로 TCP/IP 위에서 동작. 포트 102번 사용."/>
+                            <TextBlock Style="{StaticResource BodyText}" Margin="0,8,0,0">
+                                <Run Text="데이터 영역:" FontWeight="SemiBold" Foreground="{StaticResource TextBrush}"/>
+                                <Run Text=" DB (Data Block), M (Merker), I (Input), Q (Output), T (Timer), C (Counter)"/>
+                            </TextBlock>
+                            <TextBlock Style="{StaticResource BodyText}">
+                                <Run Text="오픈소스 라이브러리:" FontWeight="SemiBold" Foreground="{StaticResource TextBrush}"/>
+                                <Run Text=" S7.Net (C#), Snap7 (C/C++/Python)"/>
+                            </TextBlock>
+                        </StackPanel>
+
+                        <Border Grid.Column="1" Background="#FF1A1A2E" CornerRadius="4" Padding="12" Margin="8,0,0,0">
+                            <StackPanel>
+                                <TextBlock Text="Siemens S7 Example (S7.Net)" Style="{StaticResource SubHeaderText}" Foreground="{StaticResource AccentBrush}"/>
+                                <TextBlock x:Name="S7Code" Style="{StaticResource CodeText}" Padding="8" Margin="0,6,0,0"/>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+
+                    <!-- TIA Portal note -->
+                    <Border Background="#FF252525" CornerRadius="4" Padding="12" Margin="0,12,0,0">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="⚠" Foreground="{StaticResource WarningBrush}" FontSize="16" Margin="0,0,8,0"/>
+                            <TextBlock Style="{StaticResource BodyText}" VerticalAlignment="Center"
+                                       Text="S7-1200/1500에서 S7.Net 사용 시 TIA Portal에서 'Optimized Block Access'를 비활성화하고 'PUT/GET' 접근을 허용해야 합니다."/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
